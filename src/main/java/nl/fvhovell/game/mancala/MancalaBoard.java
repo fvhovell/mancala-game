@@ -5,52 +5,52 @@ import java.util.Collections;
 import java.util.List;
 
 public class MancalaBoard {
-	private List<Pit> topRowPits = new ArrayList<Pit>();
-	private List<Pit> bottomRowPits = new ArrayList<Pit>();
-	private Pit leftMancalaPit = new Pit(0);
-	private Pit rightMancalaPit = new Pit(0);
+	private List<Hole> topRowHoles = new ArrayList<Hole>();
+	private List<Hole> bottomRowHoles = new ArrayList<Hole>();
+	private Hole leftMancalaStore = new Hole(0);
+	private Hole rightMancalaStore = new Hole(0);
 
 	public MancalaBoard(int initialNrOfBeads) {
-		Pit nextTopPit = leftMancalaPit;
-		Pit nextBottomPit = rightMancalaPit;
+		Hole nextTopHole = leftMancalaStore;
+		Hole nextBottomHole = rightMancalaStore;
 		for (int i = 0; i < 6; i++) {
-			Pit topPit = new Pit(initialNrOfBeads);
-			Pit bottomPit = new Pit(initialNrOfBeads);
+			Hole topHole = new Hole(initialNrOfBeads);
+			Hole bottomHole = new Hole(initialNrOfBeads);
 
-			topPit.setNextPit(nextTopPit);
-			bottomPit.setNextPit(nextBottomPit);
+			topHole.setNextHole(nextTopHole);
+			bottomHole.setNextHole(nextBottomHole);
 
-			topRowPits.add(topPit);
-			bottomRowPits.add(bottomPit);
-			nextTopPit = topPit;
-			nextBottomPit = bottomPit;
+			topRowHoles.add(topHole);
+			bottomRowHoles.add(bottomHole);
+			nextTopHole = topHole;
+			nextBottomHole = bottomHole;
 		}
-		Collections.reverse(bottomRowPits);
+		Collections.reverse(bottomRowHoles);
 
 		for (int i = 0; i < 6; i++) {
-			Pit topPit = topRowPits.get(i);
-			Pit bottomPit = bottomRowPits.get(i);
-			topPit.setOppositePit(bottomPit);
-			bottomPit.setOppositePit(topPit);
+			Hole topHole = topRowHoles.get(i);
+			Hole bottomHole = bottomRowHoles.get(i);
+			topHole.setOppositeHole(bottomHole);
+			bottomHole.setOppositeHole(topHole);
 		}
-		leftMancalaPit.setNextPit(nextBottomPit);
-		rightMancalaPit.setNextPit(nextTopPit);
+		leftMancalaStore.setNextHole(nextBottomHole);
+		rightMancalaStore.setNextHole(nextTopHole);
 	}
 
-	public Pit getLeftMancalaPit() {
-		return leftMancalaPit;
+	public Hole getLeftMancalaStore() {
+		return leftMancalaStore;
 	}
 	
-	public Pit getRightMancalaPit() {
-		return rightMancalaPit;
+	public Hole getRightMancalaStore() {
+		return rightMancalaStore;
 	}
 	
-	public List<Pit> getTopRowPits() {
-		return topRowPits;
+	public List<Hole> getTopRowHoles() {
+		return topRowHoles;
 	}
 	
-	public List<Pit> getBottomRowPits() {
-		return bottomRowPits;
+	public List<Hole> getBottomRowHoles() {
+		return bottomRowHoles;
 	}
 	
 	@Override
@@ -58,14 +58,14 @@ public class MancalaBoard {
 		StringBuilder s = new StringBuilder();
 		s.append("    ");
 		for (int i = 0; i < 6; i++) {
-			Pit topPit = topRowPits.get(i);
+			Hole topPit = topRowHoles.get(i);
 			s.append(topPit).append("  ");
 		}
 		s.append("\n");
-		s.append(leftMancalaPit).append("   |   |   |   |   |   |  ").append(rightMancalaPit);
+		s.append(leftMancalaStore).append("   |   |   |   |   |   |  ").append(rightMancalaStore);
 		s.append("\n    ");
 		for (int i = 0; i < 6; i++) {
-			Pit bottomPit = bottomRowPits.get(i);
+			Hole bottomPit = bottomRowHoles.get(i);
 			s.append(bottomPit).append("  ");
 		}
 		s.append("\n");

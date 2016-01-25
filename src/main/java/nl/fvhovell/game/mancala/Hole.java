@@ -1,12 +1,12 @@
 package nl.fvhovell.game.mancala;
 
-public class Pit {
+public class Hole {
 	private int nrOfBeads;
 
-	private Pit nextPit;
-	private Pit oppositePit;
+	private Hole nextHole;
+	private Hole oppositeHole;
 
-	public Pit(int nrOfBeads) {
+	public Hole(int nrOfBeads) {
 		this.nrOfBeads = nrOfBeads;
 	}
 
@@ -15,20 +15,20 @@ public class Pit {
 		return String.format("%2d", getNrOfBeads());
 	}
 
-	public Pit getNextPit() {
-		return nextPit;
+	public Hole getNextHole() {
+		return nextHole;
 	}
 
-	public void setNextPit(Pit nextPit) {
-		this.nextPit = nextPit;
+	public void setNextHole(Hole nextHole) {
+		this.nextHole = nextHole;
 	}
 
-	public Pit getOppositePit() {
-		return oppositePit;
+	public Hole getOppositeHole() {
+		return oppositeHole;
 	}
 
-	public void setOppositePit(Pit oppositePit) {
-		this.oppositePit = oppositePit;
+	public void setOppositeHole(Hole oppositeHole) {
+		this.oppositeHole = oppositeHole;
 	}
 
 	public int getNrOfBeads() {

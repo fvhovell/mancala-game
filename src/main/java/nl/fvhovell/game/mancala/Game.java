@@ -5,31 +5,30 @@ public class Game {
 
 	public Game() {
 		System.out.println(board);
-		performMove(Player.Left, board.getBottomRowPits().get(5));
+		performMove(Player.Left, board.getBottomRowHoles().get(5));
 		System.out.println(board);
 	}
 
-	public void performMove(Player player, Pit fromPit) {
-		int beads = fromPit.takeBeads();
-		Pit currentPit = fromPit;
+	public void performMove(Player player, Hole fromHole) {
+		int beads = fromHole.takeBeads();
+		Hole currentHole = fromHole;
 		for (int b = beads; b > 0; b--) {
-			currentPit = currentPit.getNextPit();
+			currentHole = currentHole.getNextHole();
 			switch (player) {
 			case Left:
-				if (currentPit == board.getRightMancalaPit()) {
-					currentPit = currentPit.getNextPit();
+				if (currentHole == board.getRightMancalaStore()) {
+					currentHole = currentHole.getNextHole();
 				}
 				break;
 			case Right:
-				if (currentPit == board.getLeftMancalaPit()) {
-					currentPit = currentPit.getNextPit();
+				if (currentHole == board.getLeftMancalaStore()) {
+					currentHole = currentHole.getNextHole();
 				}
 				break;
 			default:
 				break;
 			}
-			
-			currentPit.incrementBeads();
+			currentHole.incrementBeads();
 		}
 	}
 
