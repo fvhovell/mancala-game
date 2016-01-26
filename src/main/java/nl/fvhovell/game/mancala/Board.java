@@ -141,7 +141,6 @@ public class Board {
 					// Deposit the captured beads in the players own store /
 					// mancala
 					getPlayerStore().incrementBeads(capturedBeads);
-					nextPlayer = false;
 				} else {
 					// Just increment beads like normal
 					currentHole.incrementBeads(1);
