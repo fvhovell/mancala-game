@@ -8,8 +8,8 @@ import java.util.Random;
 public class Board {
 	private final static Random random = new Random();
 
-	private List<Hole> topRowHoles = new ArrayList<Hole>();
-	private List<Hole> bottomRowHoles = new ArrayList<Hole>();
+	private List<Hole> leftHoles = new ArrayList<Hole>();
+	private List<Hole> rightHoles = new ArrayList<Hole>();
 	private Hole leftMancala = new Hole(0, Player.Left);
 	private Hole rightMancala = new Hole(0, Player.Right);
 
@@ -27,16 +27,16 @@ public class Board {
 			topHole.setNextHole(nextTopHole);
 			bottomHole.setNextHole(nextBottomHole);
 
-			topRowHoles.add(topHole);
-			bottomRowHoles.add(bottomHole);
+			leftHoles.add(topHole);
+			rightHoles.add(bottomHole);
 			nextTopHole = topHole;
 			nextBottomHole = bottomHole;
 		}
-		Collections.reverse(bottomRowHoles);
+		Collections.reverse(rightHoles);
 
 		for (int i = 0; i < 6; i++) {
-			Hole topHole = topRowHoles.get(i);
-			Hole bottomHole = bottomRowHoles.get(i);
+			Hole topHole = leftHoles.get(i);
+			Hole bottomHole = rightHoles.get(i);
 			topHole.setOppositeHole(bottomHole);
 			bottomHole.setOppositeHole(topHole);
 		}
@@ -49,14 +49,14 @@ public class Board {
 		StringBuilder s = new StringBuilder();
 		s.append("    ");
 		for (int i = 0; i < 6; i++) {
-			Hole topHole = topRowHoles.get(i);
+			Hole topHole = leftHoles.get(i);
 			s.append(topHole).append("  ");
 		}
 		s.append("\n");
 		s.append(leftMancala).append("   |   |   |   |   |   |  ").append(rightMancala);
 		s.append("\n    ");
 		for (int i = 0; i < 6; i++) {
-			Hole bottomHole = bottomRowHoles.get(i);
+			Hole bottomHole = rightHoles.get(i);
 			s.append(bottomHole).append("  ");
 		}
 		s.append("\n");
@@ -87,12 +87,12 @@ public class Board {
 		}
 		return moves;
 	}
-
+	
 	private List<Hole> getPlayerHoles() {
 		if (getCurrentPlayer() == Player.Left) {
-			return getTopRowHoles();
+			return getLeftHoles();
 		}
-		return getBottomRowHoles();
+		return getRightHoles();
 	}
 
 	private Hole getPlayerStore() {
@@ -102,13 +102,17 @@ public class Board {
 		return getRightMancala();
 	}
 
-	public void performMove(int startHoleIdx) {
-		if (startHoleIdx < 0 || startHoleIdx > 5) {
-			throw new IllegalArgumentException("Start hole index outside range 0 - 5");
+	public boolean isValidMove(int fromHoleIdx) {
+		return getAvailableMoves().contains(Integer.valueOf(fromHoleIdx));
+	}
+	
+	public void performMove(int fromHoleIdx) {
+		if (fromHoleIdx < 0 || fromHoleIdx > 5) {
+			throw new IllegalArgumentException("Hole index outside range 0 - 5");
 		}
-		Hole startHole = getPlayerHoles().get(startHoleIdx);
+		Hole startHole = getPlayerHoles().get(fromHoleIdx);
 		if (startHole.isEmpty()) {
-			throw new IllegalStateException("Cannot start from an empty hole");
+			throw new IllegalStateException("Cannot take beads from an empty hole");
 		}
 		
 		int beads = startHole.takeBeads();
@@ -122,7 +126,7 @@ public class Board {
 				currentHole = currentHole.getNextHole();
 			}
 			if (b == 1 && currentHole.getOwner() == getCurrentPlayer()) {
-				// Last bead to drop is in player own hole
+				// Last bead to drop is in current player's own hole
 				if (currentHole == getLeftMancala() || currentHole == getRightMancala()) {
 					// Last bead is in players own store / mancala, which means
 					// he/she gets another turn.
@@ -175,12 +179,12 @@ public class Board {
 		return rightMancala;
 	}
 
-	public List<Hole> getTopRowHoles() {
-		return topRowHoles;
+	public List<Hole> getLeftHoles() {
+		return leftHoles;
 	}
 
-	public List<Hole> getBottomRowHoles() {
-		return bottomRowHoles;
+	public List<Hole> getRightHoles() {
+		return rightHoles;
 	}
 
 	public Player getCurrentPlayer() {
