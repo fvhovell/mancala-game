@@ -2,12 +2,14 @@ package nl.fvhovell.game.mancala;
 
 public class Hole {
 	private int nrOfBeads;
+	private Player owner;
 
 	private Hole nextHole;
 	private Hole oppositeHole;
 
-	public Hole(int nrOfBeads) {
+	public Hole(int nrOfBeads, Player owner) {
 		this.nrOfBeads = nrOfBeads;
+		this.owner = owner;
 	}
 
 	@Override
@@ -34,6 +36,10 @@ public class Hole {
 	public int getNrOfBeads() {
 		return nrOfBeads;
 	}
+	
+	public Player getOwner() {
+		return owner;
+	}
 
 	public int takeBeads() {
 		int beads = nrOfBeads;
@@ -41,7 +47,11 @@ public class Hole {
 		return beads;
 	}
 	
-	public void incrementBeads() {
-		nrOfBeads += 1;
+	public void incrementBeads(int n) {
+		nrOfBeads += n;
+	}
+
+	public boolean isEmpty() {
+		return getNrOfBeads() == 0;
 	}
 }
